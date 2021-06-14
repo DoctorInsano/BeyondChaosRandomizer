@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 import configparser
-from hashlib import md5
 import os
 import re
-from shutil import copyfile
 import sys
+from hashlib import md5
+from shutil import copyfile
 from sys import argv
 from time import time, sleep, gmtime
-import traceback
-from typing import BinaryIO, Callable, Dict, List, Set, Tuple
+from typing import BinaryIO, Callable, Dict, Set, Tuple
+from typing import List
 
 import numpy.random
 
@@ -19,7 +19,9 @@ import locationrandomizer
 import musicrandomizer
 import options
 import towerrandomizer
-from randomizers.characterstats import CharacterStats
+from Loaders.baseloader import Loader
+from Loaders.characterloader import CharacterLoader
+from Randomizers.characterstats import CharacterStats
 from ancient import manage_ancient
 from appearance import manage_character_appearance
 from character import get_characters, get_character, equip_offsets
@@ -70,7 +72,6 @@ from utils import (COMMAND_TABLE, LOCATION_TABLE, LOCATION_PALETTE_TABLE,
                    mutate_index, utilrandom as random, open_mei_fallback,
                    AutoLearnRageSub)
 from wor import manage_wor_recruitment, manage_wor_skip
-
 
 VERSION = "4"
 BETA = False
@@ -4573,7 +4574,10 @@ def randomize(args: List[str]) -> str:
     commands = commands_from_table(COMMAND_TABLE)
     commands = {c.name:c for c in commands}
 
-    character.load_characters(original_rom_location, force_reload=True)
+    character_loader = CharacterLoader(original_rom_location)
+    loaders: List[Loader] = [character_loader]
+    for loader in loaders:
+        loader.get(force_reload=True)
     characters = get_characters()
 
     activation_string = Options_.activate_from_string(flags)
@@ -4794,9 +4798,9 @@ def randomize(args: List[str]) -> str:
         reset_cursed_shield(fout)
 
         if options.Use_new_randomizer:
-            stat_randomizer = CharacterStats(rng, Options_, character.character_list)
+            stat_randomizer = CharacterStats(rng, Options_, character_loader.get())
             stat_randomizer.randomize()
-            for mutated_character in character.character_list:
+            for mutated_character in character_loader.get():
                 substitutions = mutated_character.get_bytes()
                 for substitution_address in substitutions:
                     fout.seek(substitution_address)
@@ -5089,7 +5093,7 @@ def randomize(args: List[str]) -> str:
         log(str(c), section="characters")
 
     if options.Use_new_randomizer:
-        for c in sorted(character.character_list, key=lambda c: c.id):
+        for c in sorted(character_loader.get(), key=lambda c: c.id):
             if c.id <= 13:
                 log(str(c), section="stats")
 

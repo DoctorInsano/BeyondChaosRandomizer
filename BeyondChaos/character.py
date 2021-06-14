@@ -16,33 +16,11 @@ CHARSTATNAMES = ["hp", "mp", "vigor", "speed", "stamina", "m.power",
                  "attack", "defense", "m.def", "evade", "mblock"]
 
 character_list_deprecated = []
-character_list = []
 
 
 def cleanup():
     global character_list_deprecated
     character_list_deprecated = []
-
-
-def load_characters(rom_file_name, force_reload=False):
-    if character_list and not force_reload:
-        return
-
-    rom = open(rom_file_name, "rb")
-    character_byte_block_length = 22
-    for i, line in enumerate(open(CHAR_TABLE)):
-        line = line.strip()
-        if line[0] == '#':
-            continue
-        while '  ' in line:
-            line = line.replace('  ', ' ')
-        character_address_and_name = line.split(",")
-        character_address = int(character_address_and_name[0], 16)
-        rom.seek(character_address)
-        character_data = rom.read(character_byte_block_length)
-        character = Character(i, character_address, character_address_and_name[1], character_data)
-        character_list.append(character)
-    return
 
 
 def get_characters():
