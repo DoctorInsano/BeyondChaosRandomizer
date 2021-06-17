@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import List
 
-from GameObjects.gameobject import GameObject
+from gameobjects.gameobject import GameObject
 
 
 class Loader(ABC):

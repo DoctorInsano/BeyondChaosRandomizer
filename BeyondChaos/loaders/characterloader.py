@@ -1,7 +1,7 @@
 from typing import List
 
-from GameObjects.character import Character
-from Loaders.baseloader import Loader
+from gameobjects.character import Character
+from loaders.baseloader import Loader
 from utils import CHAR_TABLE
 
 

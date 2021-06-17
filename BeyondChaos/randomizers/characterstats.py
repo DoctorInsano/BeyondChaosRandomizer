@@ -3,7 +3,7 @@ import random
 from numpy.random import Generator
 
 from gameobjects.character import Character
-from randomizers.baserandomizer import Randomizer
+from baserandomizer import Randomizer
 from options import Options
 from typing import List
 

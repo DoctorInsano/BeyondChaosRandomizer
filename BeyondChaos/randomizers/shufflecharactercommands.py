@@ -1,7 +1,7 @@
 from numpy.random import Generator
 
-from GameObjects.character import Character
-from Randomizers.baserandomizer import Randomizer
+from gameobjects.character import Character
+from randomizers.baserandomizer import Randomizer
 from options import Options
 
 

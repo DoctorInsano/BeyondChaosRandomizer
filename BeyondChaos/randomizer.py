@@ -19,9 +19,9 @@ import locationrandomizer
 import musicrandomizer
 import options
 import towerrandomizer
-from Loaders.baseloader import Loader
-from Loaders.characterloader import CharacterLoader
-from Randomizers.characterstats import CharacterStats
+from loaders.baseloader import Loader
+from loaders.characterloader import CharacterLoader
+from randomizers.characterstats import CharacterStats
 from ancient import manage_ancient
 from appearance import manage_character_appearance
 from character import get_characters, get_character, equip_offsets
