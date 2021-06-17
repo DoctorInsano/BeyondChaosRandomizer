@@ -31,13 +31,28 @@ def add_orphaned_formation(formation):
     orphaned_formations.append(formation)
 
 def cleanup():
-    global extra_miabs, orphaned_formations, used_formations, done_items, appropriate_formations
+    global valid_ids, banned_formids, extra_miabs, orphaned_formations, used_formations, done_items
+    global appropriate_formations, EVENT_ENEMIES, OLD_EVENT_ENEMIES
 
+    valid_ids = list(range(1, 0x200))
+    banned_formids = [0, 0x1d7]
     extra_miabs = []
     orphaned_formations = None
     used_formations = []
     done_items = []
+
     appropriate_formations = None
+
+    EVENT_ENEMIES = [0x00, 0x01, 0x02, 0x06, 0x09, 0x19, 0x1a, 0x1b, 0x1c, 0x22, 0x24,
+                     0x33, 0x38, 0x39, 0x3a, 0x3f, 0x42, 0x43, 0x4f, 0x50, 0x59, 0x60,
+                     0x5e, 0x64, 0x65, 0x73, 0x79, 0x7f, 0x9f, 0xaf, 0xb6, 0xcf, 0xd1,
+                     0xde, 0xe3]
+
+    # Adding to event enemies increases the probability of early hard miabs significantly
+    # without level limits, so put it back like it used to be.
+    OLD_EVENT_ENEMIES = [0x00, 0x01, 0x02, 0x09, 0x19, 0x1b, 0x22, 0x24, 0x33, 0x38,
+                         0x39, 0x3a, 0x42, 0x43, 0x50, 0x59, 0x5e, 0x64, 0x73, 0x7f,
+                         0xd1, 0xe3]
 
 
 def get_orphaned_formations(old_version=False):
