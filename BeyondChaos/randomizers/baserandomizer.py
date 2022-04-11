@@ -5,8 +5,9 @@ from options import Options
 
 class Randomizer(ABC):
 
-    def __init__(self, options: Options):
+    def __init__(self, rng: random.Random, options: Options):
         self._Options = options
+        self._rng = rng
 
     @property
     @abstractmethod
@@ -24,6 +25,12 @@ class Randomizer(ABC):
 
     @abstractmethod
     def randomize(self):
+        if not self.is_active:
+            return
+        return __randomize()
+
+    @abstractmethod
+    def __randomize(self):
         """The actual randomization for a given flag happens here.
 
         Note that it should operate on a GameObject (or list of GameObjects) and have no access to the actual ROM."""
